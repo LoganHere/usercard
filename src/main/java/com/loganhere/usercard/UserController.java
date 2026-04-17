@@ -1,11 +1,11 @@
 package com.loganhere.usercard;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-//Комментарии делаю для себя, чтобы понимать, как всё работает
-
-@RestController //Этот класс обрабатывает HTTP запросы в нём @Controller и @ResponseBody
-@RequestMapping("/users") // Все URL внутри этого класса будут начинаться с эндпоинта /users
+@RestController
+@RequestMapping("/users")
 public class UserController {
     private final UserRepository userRepository;
 
@@ -13,19 +13,19 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping //Вызывает этот метод, когда клиент отправляет запрос на /users
-    public User createUser(@RequestBody User user) { //Берёт json запрос и превращает его в User
-        return userRepository.save(user);
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userRepository.save(user));
     }
 
-    @GetMapping("/{id}") //Так же, как и @PostMapping, только перекидывает на /user/{id}
-    public User getUser(@PathVariable Long id) { //@PathVariable - вытягивает id из URL
-        return userRepository.findById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userRepository.findById(id));
     }
 
-    @DeleteMapping("/{id}") //@GetMapping, но для удаления
-    public void deleteUser(@PathVariable Long id) { //@PathVariable - вытягивает id из URL
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userRepository.delete(id);
+        return ResponseEntity.noContent().build();
     }
-    //@PostMapping если бы я хотел изменить значение
 }
