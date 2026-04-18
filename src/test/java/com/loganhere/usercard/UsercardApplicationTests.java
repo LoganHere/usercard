@@ -1,9 +1,7 @@
 package com.loganhere.usercard;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.loganhere.usercard.repository.UserRepository;
 import org.springframework.boot.test.context.SpringBootTest;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class UsercardApplicationTests {
