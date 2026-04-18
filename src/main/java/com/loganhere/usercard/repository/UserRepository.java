@@ -1,7 +1,6 @@
-package com.loganhere.usercard;
+package com.loganhere.usercard.repository;
 
-import com.loganhere.usercard.emailvalidation.EmailValidateRequest;
-import com.loganhere.usercard.emailvalidation.EmailValidationClient;
+import com.loganhere.usercard.dto.User;
 import com.loganhere.usercard.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
@@ -11,30 +10,10 @@ import java.util.Map;
 @Repository
 public class UserRepository {
     private final Map<Long, User> storage = new HashMap<>();
-    private final EmailValidationClient emailValidationClient;
 
     private long currentId = 0L;
 
-    public UserRepository(EmailValidationClient emailValidationClient) {
-        this.emailValidationClient = emailValidationClient;
-    }
-
     public User save(User user) {
-        if (user.getEmail() == null) {
-            throw new NullPointerException("Email не может быть пустым");
-        }
-
-        EmailValidateRequest request = new EmailValidateRequest();
-        request.setEmail(user.getEmail());
-        if (!emailValidationClient.validateEmail(request).isValid()) {
-            throw new IllegalArgumentException("Email не прошёл валидацию");
-        }
-
-        for (User existingUser : storage.values()) {
-            if (existingUser.getEmail().equals(user.getEmail())) {
-                throw new IllegalArgumentException("Email уже существует");
-            }
-        }
         currentId++;
         user.setId(currentId);
         storage.put(user.getId(), user);
@@ -57,5 +36,14 @@ public class UserRepository {
         }
         User removedUser = storage.remove(id);
         return removedUser != null;
+    }
+
+    public User findByEmail(String email) {
+        for (User user : storage.values()) {
+            if (user.getEmail().equals(email)) {
+                return user;
+            }
+        }
+        return null;
     }
 }
