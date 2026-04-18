@@ -12,7 +12,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ExceptionsResponse> handleIllegalArgument(IllegalArgumentException e) {
-        log.warn("Illegal Argument error: {}", e.getMessage());
+        log.error("Illegal Argument error: {}", e.getMessage());
         ExceptionsResponse exception = new ExceptionsResponse(
                 "Bad Request",
                 "ILLEGAL_ARGUMENT",
@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<ExceptionsResponse> nullPointerException(NullPointerException e) {
-        log.warn("Null Exception error: {}",e.getMessage());
+        log.error("Null Exception error: {}", e.getMessage());
         ExceptionsResponse exception = new ExceptionsResponse(
                 "Null request",
                 "NULL_EXCEPTION",
@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ExceptionsResponse> userNotFoundException(UserNotFoundException e) {
-        log.warn("User Not Found error: {}", e.getMessage());
+        log.error("User Not Found error: {}", e.getMessage());
         ExceptionsResponse exception = new ExceptionsResponse(
                 "User not found",
                 "USER_NOT_FOUND",

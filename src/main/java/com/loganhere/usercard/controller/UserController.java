@@ -2,6 +2,7 @@ package com.loganhere.usercard.controller;
 
 import com.loganhere.usercard.dto.User;
 import com.loganhere.usercard.service.UserService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +19,11 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
+    @Valid
     public ResponseEntity<User> createUser(@NotNull @RequestBody User user) {
-        log.info("User is creating, id - {} email - {} name - {}",
-                user.getId(), user.getEmail(), user.getName());
+        log.info("User is creating, user - {}", user);
         User saved = userService.createUser(user);
-        log.info("User create, id - {} email - {} name - {}",
-                saved.getId(), saved.getEmail(), saved.getName());
+        log.info("User create, user - {}", user);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
