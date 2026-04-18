@@ -1,5 +1,7 @@
 package com.loganhere.usercard;
 
+import com.loganhere.usercard.emailvalidation.EmailValidateRequest;
+import com.loganhere.usercard.emailvalidation.EmailValidationClient;
 import com.loganhere.usercard.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
@@ -10,11 +12,23 @@ import java.util.Map;
 public class UserRepository {
     private final Map<Long, User> storage = new HashMap<>();
     private long currentId = 0L;
+    private final EmailValidationClient emailValidationClient;
+
+    public UserRepository(EmailValidationClient emailValidationClient) {
+        this.emailValidationClient = emailValidationClient;
+    }
 
     public User save(User user) {
         if (user.getEmail() == null) {
             throw new NullPointerException("Email не может быть пустым");
         }
+
+        EmailValidateRequest request = new EmailValidateRequest();
+        request.setEmail(user.getEmail());
+        if (!emailValidationClient.validateEmail(request).isValid()) {
+            throw new IllegalArgumentException("Email не прошёл валидацию");
+        }
+
         for (User existingUser : storage.values()) {
             if (existingUser.getEmail().equals(user.getEmail())) {
                 throw new IllegalArgumentException("Email уже существует");
