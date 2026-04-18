@@ -1,5 +1,6 @@
 package com.loganhere.usercard;
 
+import com.loganhere.usercard.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
