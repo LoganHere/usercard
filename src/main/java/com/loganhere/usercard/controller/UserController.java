@@ -19,8 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    @Valid
-    public ResponseEntity<User> createUser(@NotNull @RequestBody User user) {
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         log.info("User is creating, user - {}", user);
         User saved = userService.createUser(user);
         log.info("User create, user - {}", user);
