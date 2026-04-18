@@ -11,8 +11,9 @@ import java.util.Map;
 @Repository
 public class UserRepository {
     private final Map<Long, User> storage = new HashMap<>();
-    private long currentId = 0L;
     private final EmailValidationClient emailValidationClient;
+
+    private long currentId = 0L;
 
     public UserRepository(EmailValidationClient emailValidationClient) {
         this.emailValidationClient = emailValidationClient;
