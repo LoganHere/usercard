@@ -2,6 +2,7 @@ package com.loganhere.usercard.repository;
 
 import com.loganhere.usercard.dto.User;
 import com.loganhere.usercard.exceptions.UserNotFoundException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -11,7 +12,11 @@ import java.util.Map;
 public class UserRepository {
     private final Map<Long, User> storage = new HashMap<>();
 
-    private long currentId = 0L;
+    private long currentId;
+
+    public UserRepository(@Value("${usercard.id.start:0}") long startId) {
+        this.currentId = startId;
+    }
 
     public User save(User user) {
         currentId++;

@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "email-validation-service", url = "${validate.server.url}")
 public interface EmailValidationClient {
 
-    @PostMapping("/email/validate")
+    @PostMapping
     EmailValidationResponse validateEmail(@RequestBody EmailValidateRequest request);
 }
