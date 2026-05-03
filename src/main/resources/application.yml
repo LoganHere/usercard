@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: usercard
+
+validate:
+  server:
+    url: http://localhost:8081
+
+usercard:
+  id:
+    start: 0
+
+error:
+  email:
+    null-exception: Email cannot be empty
+    invalid: Email failed validation
+    duplicate: Email already exists

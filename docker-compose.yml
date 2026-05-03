@@ -1,0 +1,26 @@
+services:
+  email-validator:
+    image: emailvalidation:latest
+    container_name: email-validator
+    ports:
+      - "8081:8081"
+    networks:
+      - my-net
+    restart: unless-stopped
+
+  usercard:
+    image: usercard:latest
+    container_name: usercard
+    ports:
+      - "8080:8080"
+    environment:
+      - validate.server.url=http://email-validator:8081
+    networks:
+      - my-net
+    depends_on:
+      - email-validator
+    restart: unless-stopped
+
+networks:
+  my-net:
+    driver: bridge
